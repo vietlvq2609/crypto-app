@@ -9,7 +9,7 @@ import { News, Cryptocurrencies } from '../components';
 const { Title } = Typography;
 
 const Homepage = () => {
-  const { data, error, isLoading } = useGetCryptosQuery(10);
+  const { data, isLoading } = useGetCryptosQuery(10);
 
   const globalStats = data?.data?.stats;
 

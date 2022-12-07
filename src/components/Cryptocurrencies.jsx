@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import millify from 'millify';
 import { Link } from 'react-router-dom';
-import { Card, Row, Col, Input } from 'antd';
+import { Card, Row, Col, Input, Typography } from 'antd';
 
 import { useGetCryptosQuery } from '../services/cryptoApi';
 
+const { Title } = Typography;
+
 const Cryptocurrencies = ({ simplified }) => {
   const count = simplified ? 10 : 100;
-  const { data: cryptoList, error, isLoading } = useGetCryptosQuery(count);
+  const { data: cryptoList, isLoading } = useGetCryptosQuery(count);
   const [cryptos, setCryptos] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
 
@@ -22,12 +24,15 @@ const Cryptocurrencies = ({ simplified }) => {
   return (
     <>
       {!simplified && (
-        <div className="search-crypto">
-          <Input
-            placeholder="Search Cryptocurrency"
-            onChange={(e) => setSearchTerm(e.target.value.toLowerCase())}
-          />
-        </div>
+        <>
+          <Title level={2} className="heading">Crypocurrencies</Title>
+          <div className="search-crypto">
+            <Input
+              placeholder="Search Cryptocurrency"
+              onChange={(e) => setSearchTerm(e.target.value.toLowerCase())}
+            />
+          </div>
+        </>
       )}
       <Row gutter={[32, 32]} className="crypto-card-container">
         {cryptos?.map((currency) => (
@@ -43,7 +48,7 @@ const Cryptocurrencies = ({ simplified }) => {
             <Link key={currency.uuid} to={`/crypto/${currency.uuid}`}>
               <Card
                 title={`${currency.rank}. ${currency.name}`}
-                extra={<img className="crypto-image" src={currency.iconUrl} />}
+                extra={<img className="crypto-image" src={currency.iconUrl} alt={currency.name} />}
                 hoverable
               >
                 <p>Price: {millify(currency.price)}</p>
